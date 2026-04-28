@@ -1,0 +1,18 @@
+# Ren'Py compiled files
+*.rpyc
+*.rpyb
+*.rpymc
+
+# Save data and cache
+game/saves/
+game/cache/
+
+# Persistent data
+*.persistent
+
+# Distribution builds
+/dists/
+
+# OS junk
+.DS_Store
+Thumbs.db
