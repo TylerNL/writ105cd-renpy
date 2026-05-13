@@ -18,6 +18,7 @@ default found_rotation_note = False
 default found_voss_rec1 = False
 default found_voss_rec2 = False
 default found_memo = False
+default caught_in = ""
 
 
 # SCENE 1 — HOLDING ROOM
@@ -48,9 +49,80 @@ label start:
     "A voice through the intercom — measured, professional."
     v "Subject zero-seven, you're being moved to a temporary holding area. Please step into the corridor and follow the guide line."
     "The door slides open."
+    jump scene1b_interview
+
+# Multiple ways to gain the doctor's trust
+label scene1b_interview:
+    scene bg cell
+    with fade
+    "Before they move you, they assess you."
+    "The intercom panel buzzes beside the mirror."
+    "The one-way glass brightens slightly from within. A silhouette resolves: a woman, seated, clipboard in her lap."
+    v "Good morning, zero-seven. I'm Dr. Voss. I'll be conducting your routine cognitive assessment."
+    v "This should take about fifteen minutes. Please answer as directly as you can."
+    # Q1
+    v "How have you been sleeping?"
+    menu:
+        "Fine."
+            "She makes a note. Clinical."
+            v "Consistent sleep pattern. Good."
+        "Not well. The lights don't turn off." #Truthful - trust builds
+            $ trust_voss += 1
+            "A pause. Something crosses her expression."
+            v "I'll look into the panel schedule."
+            "Not 'flag it for review.' Not 'submit a request.' She said {i}I'll look into it.{/i}"
+        "[Stay silent]"
+            "She waits with her pen ready. Then lowers it."
+            v "That's alright. We can move on."
+    # Question 2
+    v "Do you remember the twelve months before you came here?"
+    menu:
+        "Not much. Fragments."
+            v "That's consistent with intake profiles."
+            "She writes."
+        "Why does that matter to you?"
+            "The pen lifts."
+            v "It's a standard assessment question."
+            "She says it the way someone says something they're reminding themselves is true."
+        "I remember everything. I just don't know what it means yet." #Truthful answer - trust increases
+            $ trust_voss += 1
+            "A pause. Longer. She looks up from the clipboard."
+            v "Hmmm...okay then."
+            "She's stopped writing. She's looking at you."
+    # Question 3
+    v "Do you feel different than you did when you first arrived?"
+    menu:
+        "I don't know what I felt when I first arrived."
+            v "Noted."
+            "She writes, but the pace has slowed."
+        "Do {i}you{/i} feel different?" # Trust incrfeases
+            $ trust_voss += 1
+            "The pen stops."
+            "A long beat."
+            v "...That's not part of the assessment."
+            "She moves on. But she didn't say no."
+        "Yes. Calmer."
+            "She writes the word. Then reads it back to herself, silently."
+            v "Calmer. Interesting."
+    # Closing
+    v "That concludes today's session. Thank you for your cooperation."
+    "She gathers her materials."
+    "Then stops."
+    "She's looking at the glass. She stares at your face blankly, not seeming to realize she's doing it."
+    menu:
+        "Watch her."
+            $ trust_voss += 1
+            "Three seconds. Maybe four. Long, for someone this deliberate."
+            "Then something shifts."
+            v "Someone will be along to escort you to the corridor shortly."
+            "She leaves. The glass dims."
+            "She moved differently at the end. Like someone walking away from something they almost said."
+        "Look toward the door instead."
+            v "Someone will be along shortly."
+            "The glass dims. You don't see what she does before she goes."
     jump scene2_hallway
 
-#Scene 2 - Hallway (Items to collect: Sticky note and window)
+#Scene 2 - Hallway (Items to collect: Sticky note and window -- both build trust with Dr.)
 label scene2_hallway:
     scene bg hallway
     with fade
@@ -60,6 +132,19 @@ label scene2_hallway:
     "Security cameras at regular intervals. Staff rooms behind frosted glass. Emergency strip lighting at the baseboards — faint orange, like a second heartbeat."
     label hallway_examine:
     menu:
+        "Try the staff room door" if not alarm_triggered:
+            "The handle is locked. But the electronic panel beside it flickers when you get close."
+            "A camera above you adjusts its angle."
+            menu:
+                "Keep trying.":
+                    $ caught_in = "hallway"
+                    $ alarm_triggered = True
+                    "The panel emits a sharp, flat tone. A red indicator pulses twice."
+                    "Down the corridor, a door opens."
+                    jump caught_snooping_hallway
+                "Step back.":
+                    "You step back. The camera holds on you for a moment, then resumes its sweep."
+                    jump hallway_examine
         "The corridor stretches ahead."
         "Read sticky note on the wall" if not found_sticky_note:
             $ found_sticky_note = True
@@ -89,7 +174,6 @@ label scene2_hallway:
             jump scene5_convergence
 
 #Scene 3
-
 label scene3_observation:
     scene bg lab
     with fade
@@ -118,7 +202,7 @@ label scene3_observation:
         "Read the pinned note" if not found_rotation_note:
             $ found_rotation_note = True
             "Pinned to the corkboard, typed on official letterhead:"
-            "{i}\"Staff rotation mandatory — no single researcher exceeds 4hrs contact.\"{/i}"
+            "{i}\"Staff rotation mandatory...no single researcher shall exceed 4hrs contact.\"{/i}"
             "Four hours. You've been here much longer than that."
             jump lab_examine
         "Leave the lab":
@@ -145,6 +229,7 @@ label scene4_archive:
     label archive_examine:
     menu:
         "The terminal hums. Files are scattered across the desk."
+
         "Play recording #1" if not found_voss_rec1:
             $ found_voss_rec1 = True
             "The timestamp reads three weeks ago."
@@ -154,6 +239,7 @@ label scene4_archive:
             "Her voice is clipped. Professional. Controlled."
             $ trust_voss += 1
             jump archive_examine
+
         "Play recording #2" if not found_voss_rec2:
             $ found_voss_rec2 = True
             "The timestamp reads twenty days later."
@@ -163,12 +249,30 @@ label scene4_archive:
             "The recording ends with a long silence."
             $ trust_voss += 1
             jump archive_examine
+
         "Read the memo" if not found_memo:
             $ found_memo = True
             "A typed memo, stamped INTERNAL ONLY."
             "{i}\"Cognitive Bleed — passive radius expanding. Estimated range: 40ft.\"{/i}"
             "Forty feet. That's not a room. That's a corridor. A wing."
             jump archive_examine
+
+        "Search for restricted files" if not alarm_triggered:
+            "At the bottom of the filing cabinet: a locked drawer. The label reads {b}LEVEL 4 — BIOHAZARD ADVISORY{/b}."
+            menu:
+                "Force it open.":
+                    $ caught_in = "archive"
+                    $ alarm_triggered = True
+                    "The lock is cheap. It breaks under little pressure."
+                    "Inside: a single file folder. A photograph clipped to the front."
+                    "Your face. From before. A name written underneath it — your real name."
+                    "You hadn't heard it in so long you'd almost stopped expecting to."
+                    "A tone sounds through the building. Then again."
+                    jump caught_snooping_archive
+                "Leave it.":
+                    "You close the drawer and step back."
+                    jump archive_examine
+
         "Leave the archive":
             pass
     if found_voss_rec1 and found_voss_rec2 and found_memo:
@@ -220,6 +324,68 @@ label scene5_convergence:
             jump ending_alone
         "\"Is what I read in the archive true? Am I actually—\"" if knows_incident:
             jump ending_stay
+
+#Getting caught scenes:
+label caught_snooping_hallway:
+    "Footsteps. Fast. Two pairs."
+    "The staff door swings open ahead of you. Two technicians enter."
+    "One of them says, carefully: \"We need you to come with us.\""
+    "You notice they don't grab you. They stand close, but they don't grab you."
+    "You wonder, as they lead you back, if that's protocol."
+    "Or if it's something else."
+    jump ending_caught_snooping
+label caught_snooping_lab:
+    "The red light pulses."
+    "Through the porthole, the figure in cell four is still watching."
+    "You don't know how long you stand there before you hear the door behind you open."
+    "A hand on your shoulder. Carefully placed."
+    "\"Subject zero-seven. Please come with us.\""
+    "You let them lead you away from the glass."
+    "You keep thinking about that other cell. About the figure who looked up at exactly the right moment."
+    "Like they already knew you were there."
+    jump ending_caught_snooping
+label caught_snooping_archive:
+    "You're still holding the photograph when the door opens."
+    "A researcher you've never seen stops just inside the doorway."
+    "They look at the photograph. Then at you. Then back at the photograph."
+    "They're fumbling. Flushed. They can't quite meet your eyes."
+    "You've been in this room less than three minutes."
+    "You fold the photograph once and set it on the desk before you go."
+    "They don't stop you from folding it. They don't take it back."
+    jump ending_caught_snooping
+label ending_caught_snooping:
+    scene bg cell
+    with fade
+    "Same cell. Same fluorescent panels. Same digital readout above the door: {b}CONTAINMENT CELL 07{/b}."
+    "The intercom crackles."
+    if trust_voss >= 3:
+        v "I'm sorry. I tried to get ahead of it."
+        "A pause."
+        v "I should have moved faster."
+        "Her voice is different from the assessment session."
+    else:
+        v "This is why we have protocols."
+        "A pause. Shorter than it should be."
+        v "...Someone will bring you something to eat."
+    "The glass on the far wall is dark."
+    "It's never just a mirror."
+    if caught_in == "archive":
+        "Somewhere in this facility, there's a photograph with your real name on it."
+        "You left it on the desk. They didn't take it back."
+        "You don't know what to do with that yet."
+    elif caught_in == "lab":
+        "You keep thinking about the figure in cell four."
+        "How they looked up at exactly the right moment."
+        "You wonder if they're thinking about you."
+    elif caught_in == "hallway":
+        "You think about the way those technicians looked when they came for you."
+        "Not afraid. Not angry."
+        "{i}Apologetic.{/i}"
+    "You sit on the metal bed and wait."
+    "There's more to find in here."
+    "There always is."
+    "END — Caught"
+    return
 
 # ENDINGS
 label ending_shared_escape:
@@ -276,11 +442,11 @@ label ending_stay:
 label ending_captured:
     "The alarm screams through the corridor. Red light washes everything in pulses."
     "The blast doors slam shut before you reach them. The lock cycles — once, twice — then goes dead."
-    v "No — no, I almost had it—"
-    "Her voice breaks. Not with professionalism. With something personal."
+    v "No, I almost had it—"
+    "Her voice breaks."
     e "We're trapped."
     "Eli backs against the wall. His breathing goes ragged."
-    "Boots on tile. Getting closer."
+    "Getting closer."
     "You stand in the center of the corridor, under the emergency lights, and wait."
     "They don't use force. They don't need to."
     "Everyone who gets close to you becomes gentle."
