@@ -63,28 +63,30 @@ label scene1b_interview:
     # Q1
     v "How have you been sleeping?"
     menu:
-        "Fine."
+        "Fine.":
             "She makes a note. Clinical."
             v "Consistent sleep pattern. Good."
-        "Not well. The lights don't turn off." #Truthful - trust builds
+
+        "Not well. The lights don't turn off.": #Truthful - trust builds
             $ trust_voss += 1
             "A pause. Something crosses her expression."
             v "I'll look into the panel schedule."
             "Not 'flag it for review.' Not 'submit a request.' She said {i}I'll look into it.{/i}"
-        "[Stay silent]"
+
+        "(Stay silent)":
             "She waits with her pen ready. Then lowers it."
             v "That's alright. We can move on."
     # Question 2
     v "Do you remember the twelve months before you came here?"
     menu:
-        "Not much. Fragments."
+        "Not much. Fragments.":
             v "That's consistent with intake profiles."
             "She writes."
-        "Why does that matter to you?"
+        "Why does that matter to you?":
             "The pen lifts."
             v "It's a standard assessment question."
             "She says it the way someone says something they're reminding themselves is true."
-        "I remember everything. I just don't know what it means yet." #Truthful answer - trust increases
+        "I remember everything. I just don't know what it means yet.": #Truthful answer - trust increases
             $ trust_voss += 1
             "A pause. Longer. She looks up from the clipboard."
             v "Hmmm...okay then."
@@ -92,16 +94,16 @@ label scene1b_interview:
     # Question 3
     v "Do you feel different than you did when you first arrived?"
     menu:
-        "I don't know what I felt when I first arrived."
+        "I don't know what I felt when I first arrived.":
             v "Noted."
             "She writes, but the pace has slowed."
-        "Do {i}you{/i} feel different?" # Trust incrfeases
+        "Do {i}you{/i} feel different?": # Trust incrfeases
             $ trust_voss += 1
             "The pen stops."
             "A long beat."
             v "...That's not part of the assessment."
             "She moves on. But she didn't say no."
-        "Yes. Calmer."
+        "Yes. Calmer.":
             "She writes the word. Then reads it back to herself, silently."
             v "Calmer. Interesting."
     # Closing
@@ -110,14 +112,14 @@ label scene1b_interview:
     "Then stops."
     "She's looking at the glass. She stares at your face blankly, not seeming to realize she's doing it."
     menu:
-        "Watch her."
+        "Watch her.":
             $ trust_voss += 1
             "Three seconds. Maybe four. Long, for someone this deliberate."
             "Then something shifts."
             v "Someone will be along to escort you to the corridor shortly."
             "She leaves. The glass dims."
             "She moved differently at the end. Like someone walking away from something they almost said."
-        "Look toward the door instead."
+        "Look toward the door instead.":
             v "Someone will be along shortly."
             "The glass dims. You don't see what she does before she goes."
     jump scene2_hallway
