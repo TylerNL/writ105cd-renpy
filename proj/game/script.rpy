@@ -1,10 +1,13 @@
-define v = Character("Voss", color="#88aacc")
-define e = Character("Eli", color="#cc9966")
+init python:
+    renpy.music.register_channel("talk", mixer="sfx", loop=False)
+    def talk_sound(event, **kwargs):
+        if event == "begin":
+            renpy.sound.play("audio/talk_blip.mp3", channel="talk", loop=True)
+        elif event == "slow_done" or event == "end":
+            renpy.sound.stop(channel="talk")
+define v = Character("Voss", color="#88aacc", callback=talk_sound)
+define e = Character("Eli", color="#cc9966", callback=talk_sound)
 define narrator = Character(None, kind=nvl_narrator) if False else Character(None)
-
-define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
-define audio.hum     = "audio/dragon-studio-creepy-industrial-hum-482882.mp3"
-define audio.intercom = "audio/freesound_community-intercom-93581.mp3"
 default trust_voss = 0
 default trust_eli = 0
 default knows_ability = False
@@ -26,7 +29,10 @@ default caught_in = ""
 image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
 image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
 image voss_neutral = "/images/voss_neutral.png"
-image voss_talk = "/images/voss_talk.png"
+image voss_talk = "/images/voss_talk.png"   
+define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
+define audio.hum     = "audio/dragon-studio-creepy-industrial-hum-482882.mp3"
+define audio.intercom = "audio/freesound_community-intercom-93581.mp3"
 
 
 # SCENE 1 — HOLDING ROOM
@@ -54,6 +60,7 @@ label start:
             jump cell_examine
         "Wait by the door":
             pass
+    play sound audio.intercom
     "A buzz. The magnetic lock disengages."
     "A voice through the intercom — measured, professional."
     v "Subject zero-seven, you're being moved to a temporary holding area. Please step into the corridor and follow the guide line."
@@ -62,16 +69,15 @@ label start:
 
 # Multiple ways to gain the doctor's trust
 label scene1b_interview:
+    play music audio.hum fadein 2.0
     scene bg holding_cell
     with fade
-    play sound audio.intercom
     "Before they move you, they assess you."
     "The intercom panel buzzes beside the mirror."
     "The one-way glass brightens slightly from within. A silhouette resolves: a woman, seated, clipboard in her lap."
 
     show voss_neutral at right
     with dissolve
-
     show voss_talk at right
     v "Good morning, zero-seven. I'm Dr. Voss. I'll be conducting your routine cognitive assessment."
     v "This should take about fifteen minutes. Please answer as directly as you can."
@@ -140,13 +146,14 @@ label scene1b_interview:
         "Look toward the door instead.":
             v "Someone will be along shortly."
             "The glass dims. You don't see what she does before she goes."
+    stop music fadeout 2.0
     jump scene2_hallway
 
 #Scene 2 - Hallway (Items to collect: Sticky note and window -- both build trust with Dr.)
 label scene2_hallway:
+    play music audio.hum fadein 2.0
     scene bg hallway
     with fade
-    play music audio.hum fadein 2.0
 
     "A long institutional corridor. A yellow hazard stripe runs down the center of the floor."
 
@@ -193,9 +200,11 @@ label scene2_hallway:
             jump scene4_archive
         "Follow the guide line":
             jump scene5_convergence
+    stop music fadeout 2.0
 
 #Scene 3
 label scene3_observation:
+    play music audio.buzz fadein 1.0
     scene bg lab 
     with fade
     "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled. Observation chairs face a one-way window looking into an empty room."
@@ -240,6 +249,7 @@ label scene3_observation:
             jump scene4_archive
         "Continue to the exit wing":
             jump scene5_convergence
+    stop music fadeout 2.0
 
 # SCENE 4 — ARCHIVE
 label scene4_archive:
@@ -310,10 +320,9 @@ label scene4_archive:
 label scene5_convergence:
     scene bg junction
     with fade
-    stop music fadeout 2.0
-    play sound audio.intercom
     "The junction between the research wing and the security-locked exit. Emergency lighting flickers — amber, then white, then amber again."
     "Blast doors ahead. Heavy. Industrial. A keycard reader blinks red."
+    play sound audio.intercom
     "The intercom crackles."
     v "You're almost at the perimeter lock. I can open it from here."
     if trust_voss >= 3:
