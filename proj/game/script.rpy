@@ -19,6 +19,8 @@ default found_voss_rec1 = False
 default found_voss_rec2 = False
 default found_memo = False
 default caught_in = ""
+image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
+image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
 
 
 # SCENE 1 — HOLDING ROOM
@@ -53,7 +55,7 @@ label start:
 
 # Multiple ways to gain the doctor's trust
 label scene1b_interview:
-    scene bg cell
+    scene bg holding_cell
     with fade
     "Before they move you, they assess you."
     "The intercom panel buzzes beside the mirror."
@@ -177,7 +179,7 @@ label scene2_hallway:
 
 #Scene 3
 label scene3_observation:
-    scene bg lab
+    scene bg lab 
     with fade
     "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled. Observation chairs face a one-way window looking into an empty room."
     "A whiteboard. Cabinet drawers left slightly open. The room smells like stale coffee and dry-erase markers."
@@ -224,7 +226,7 @@ label scene3_observation:
 
 # SCENE 4 — ARCHIVE
 label scene4_archive:
-    scene bg archive
+    scene bg archive 
     with fade
     "A narrow room lined with metal shelving. Filing cabinets. A playback terminal bolted to a desk, its screen casting pale blue light."
     "This isn't where they keep the subjects. This is where they keep the records."
