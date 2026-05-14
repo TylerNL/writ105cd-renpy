@@ -1,6 +1,10 @@
 define v = Character("Voss", color="#88aacc")
 define e = Character("Eli", color="#cc9966")
 define narrator = Character(None, kind=nvl_narrator) if False else Character(None)
+
+define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
+define audio.hum     = "audio/dragon-studio-creepy-industrial-hum-482882.mp3"
+define audio.intercom = "audio/freesound_community-intercom-93581.mp3"
 default trust_voss = 0
 default trust_eli = 0
 default knows_ability = False
@@ -29,6 +33,7 @@ image voss_talk = "/images/voss_talk.png"
 label start:
     scene bg cell
     with fade
+    play music audio.buzz fadein 2.0
     "Sterile white. Fluorescent panels humming overhead. The smell is clinical — disinfectant layered over something older."
     "A metal bed bolted to the wall. A one-way mirror on the far wall, its surface dark and flat."
     "A digital readout above the door pulses softly: {b}CONTAINMENT CELL 07{/b}."
@@ -59,6 +64,7 @@ label start:
 label scene1b_interview:
     scene bg holding_cell
     with fade
+    play sound audio.intercom
     "Before they move you, they assess you."
     "The intercom panel buzzes beside the mirror."
     "The one-way glass brightens slightly from within. A silhouette resolves: a woman, seated, clipboard in her lap."
@@ -140,6 +146,7 @@ label scene1b_interview:
 label scene2_hallway:
     scene bg hallway
     with fade
+    play music audio.hum fadein 2.0
 
     "A long institutional corridor. A yellow hazard stripe runs down the center of the floor."
 
@@ -303,6 +310,8 @@ label scene4_archive:
 label scene5_convergence:
     scene bg junction
     with fade
+    stop music fadeout 2.0
+    play sound audio.intercom
     "The junction between the research wing and the security-locked exit. Emergency lighting flickers — amber, then white, then amber again."
     "Blast doors ahead. Heavy. Industrial. A keycard reader blinks red."
     "The intercom crackles."
