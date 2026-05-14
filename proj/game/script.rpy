@@ -21,6 +21,8 @@ default found_memo = False
 default caught_in = ""
 image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
 image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
+image voss_neutral = "/images/voss_neutral.png"
+image voss_talk = "/images/voss_talk.png"
 
 
 # SCENE 1 — HOLDING ROOM
@@ -60,6 +62,11 @@ label scene1b_interview:
     "Before they move you, they assess you."
     "The intercom panel buzzes beside the mirror."
     "The one-way glass brightens slightly from within. A silhouette resolves: a woman, seated, clipboard in her lap."
+
+    show voss_neutral at right
+    with dissolve
+
+    show voss_talk at right
     v "Good morning, zero-seven. I'm Dr. Voss. I'll be conducting your routine cognitive assessment."
     v "This should take about fifteen minutes. Please answer as directly as you can."
     # Q1
@@ -120,6 +127,9 @@ label scene1b_interview:
             "Then something shifts."
             v "Someone will be along to escort you to the corridor shortly."
             "She leaves. The glass dims."
+            hide voss_neutral
+            hide voss_talk
+            with dissolve
             "She moved differently at the end. Like someone walking away from something they almost said."
         "Look toward the door instead.":
             v "Someone will be along shortly."
