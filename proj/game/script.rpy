@@ -28,11 +28,14 @@ default found_memo = False
 default caught_in = ""
 image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
 image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
+image bg ending = im.Scale("/images/bg morgue 1.jpg", 1920, 1080)
+image bg lab = im.Scale("images/bg lab.png", 1920, 1080)
 image voss_neutral = "/images/voss_neutral.png"
 image voss_talk = "/images/voss_talk.png"   
 define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
 define audio.hum     = "audio/dragon-studio-creepy-industrial-hum-482882.mp3"
 define audio.intercom = "audio/freesound_community-intercom-93581.mp3"
+image eli = "/images/eli-bg.png"
 
 
 # SCENE 1 — HOLDING ROOM
@@ -194,7 +197,7 @@ label scene2_hallway:
     v "Continue along the guide line. You'll be directed to the observation wing shortly."
     menu:
         "The corridor branches ahead."
-        "Follow the guide line to the observation wing":
+        "Head to the observation wing":
             jump scene3_observation
         "Turn toward the archive corridor" if found_sticky_note:
             jump scene4_archive
@@ -205,7 +208,7 @@ label scene2_hallway:
 #Scene 3
 label scene3_observation:
     play music audio.buzz fadein 1.0
-    scene bg lab 
+    scene bg morgue 1 
     with fade
     "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled. Observation chairs face a one-way window looking into an empty room."
     "A whiteboard. Cabinet drawers left slightly open. The room smells like stale coffee and dry-erase markers."
@@ -253,7 +256,7 @@ label scene3_observation:
 
 # SCENE 4 — ARCHIVE
 label scene4_archive:
-    scene bg archive 
+    scene bg lab 
     with fade
     "A narrow room lined with metal shelving. Filing cabinets. A playback terminal bolted to a desk, its screen casting pale blue light."
     "This isn't where they keep the subjects. This is where they keep the records."
@@ -320,8 +323,7 @@ label scene4_archive:
 label scene5_convergence:
     scene bg junction
     with fade
-    "The junction between the research wing and the security-locked exit. Emergency lighting flickers — amber, then white, then amber again."
-    "Blast doors ahead. Heavy. Industrial. A keycard reader blinks red."
+    "Blast doors ahead. A keycard reader blinks red."
     play sound audio.intercom
     "The intercom crackles."
     v "You're almost at the perimeter lock. I can open it from here."
@@ -332,6 +334,7 @@ label scene5_convergence:
         "Her voice is strained. Urgent."
         v "Move quickly. I don't know how long I can keep this corridor clear."
     "A sound behind you. Footsteps — fast, uneven."
+    show eli at right
     e "Wait — {i}wait{/i}!"
     "Eli rounds the corner. Breathing hard. His containment band is cracked, hanging loose."
     if trust_eli >= 1:
@@ -359,6 +362,7 @@ label scene5_convergence:
 
 #Getting caught scenes:
 label caught_snooping_hallway:
+    scene bg hallway
     "Footsteps. Fast. Two pairs."
     "The staff door swings open ahead of you. Two technicians enter."
     "One of them says, carefully: \"We need you to come with us.\""
@@ -367,6 +371,7 @@ label caught_snooping_hallway:
     "Or if it's something else."
     jump ending_caught_snooping
 label caught_snooping_lab:
+    scene bg lab
     "The red light pulses."
     "Through the porthole, the figure in cell four is still watching."
     "You don't know how long you stand there before you hear the door behind you open."
@@ -377,6 +382,7 @@ label caught_snooping_lab:
     "Like they already knew you were there."
     jump ending_caught_snooping
 label caught_snooping_archive:
+    scene bg lab
     "You're still holding the photograph when the door opens."
     "A researcher you've never seen stops just inside the doorway."
     "They look at the photograph. Then at you. Then back at the photograph."
@@ -416,16 +422,18 @@ label ending_caught_snooping:
     "You sit on the metal bed and wait."
     "There's more to find in here."
     "There always is."
-    "END — Caught"
+    "END - Caught"
     return
 
 # ENDINGS
 label ending_shared_escape:
+    scene bg ending
+    show eli at right
     e "You mean it?"
     "You take his arm. He doesn't resist. He doesn't question it."
     "Neither of you notice that he should have."
     v "Go. Both of you. Now."
-    "The blast doors grind open. Cold air rushes in — real air, not recycled."
+    "The blast doors grind open."
     "You step through together. The corridor behind you goes dark."
     "Somewhere in the facility, Dr. Voss leans back in her chair and closes her eyes."
     "She doesn't file the breach report."
@@ -437,7 +445,8 @@ label ending_shared_escape:
     "END — Shared Escape"
     return
 label ending_alone:
-    e "What? No — you can't just—"
+    scene bg ending
+    e "What? No-"
     "His hand reaches for you. You step back."
     "The look on his face isn't anger. It's something worse."
     "The blast doors open. You walk through alone."
@@ -446,21 +455,22 @@ label ending_alone:
     "Behind you, the doors close. Eli's hand drops."
     if knows_ability:
         "You tell yourself it's the right thing. That staying would only make it worse."
-        "You tell yourself his grief is real, and that's exactly why you have to go."
     else:
         "You don't look back."
     "END — Alone"
     return
 label ending_stay:
+    scene bg ending
     "The blast doors are open. The exit is right there."
     "You don't move."
     v "What are you doing?"
-    "\"Is it true? The cognitive bleed. The attachment formation. All of it.\""
+    "\"Is it true? My ability? The attachment formation? All of it?\""
     "Silence."
     v "...Yes."
     "\"Then none of this is real. Not Eli. Not you. None of it.\""
+    show eli at right
     e "What are you talking about?"
-    "Eli's voice is hurt. Confused. Genuine — as far as he can tell."
+    "Eli's voice is hurt. Confused."
     "You sit down on the floor of the corridor."
     "\"Close the doors.\""
     v "You don't have to do this."
@@ -468,14 +478,16 @@ label ending_stay:
     "The blast doors grind shut. The cold air disappears."
     "Eli stares at you. Then, slowly, sits down beside you."
     "You don't tell him to leave. You're not sure it would work."
-    "The fluorescent lights hum. The cameras watch. And for the first time, you choose to stay where you can't hurt anyone else."
+    "You choose to stay where you can't hurt anyone else."
     "END — Stay"
     return
 label ending_captured:
+    scene bg ending
     "The alarm screams through the corridor. Red light washes everything in pulses."
-    "The blast doors slam shut before you reach them. The lock cycles — once, twice — then goes dead."
+    "The blast doors slam shut before you reach them."
     v "No, I almost had it—"
     "Her voice breaks."
+    show eli at right
     e "We're trapped."
     "Eli backs against the wall. His breathing goes ragged."
     "Getting closer."
