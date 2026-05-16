@@ -27,9 +27,12 @@ default found_voss_rec2 = False
 default found_memo = False
 default caught_in = ""
 image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
+image bg hallway = im.Scale("/images/bg hallway.png", 1920, 1080)
 image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
 image bg ending = im.Scale("/images/bg morgue 1.jpg", 1920, 1080)
 image bg lab = im.Scale("images/bg lab.png", 1920, 1080)
+image bg junction = im.Scale("images/bg junction.png", 1920, 1080)
+image bg morgue 1 = im.Scale("images/bg morgue 1.jpg", 1920, 1080)
 image voss_neutral = "/images/voss_neutral.png"
 image voss_talk = "/images/voss_talk.png"   
 define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
@@ -160,7 +163,7 @@ label scene2_hallway:
 
     "A long institutional corridor. A yellow hazard stripe runs down the center of the floor."
 
-    "Security cameras at regular intervals. Staff rooms behind frosted glass. Emergency strip lighting at the baseboards — faint orange, like a second heartbeat."
+    "Security cameras at regular intervals. Staff rooms behind frosted glass. Emergency strip lighting at the baseboards"
     label hallway_examine:
     menu:
         "Try the staff room door" if not alarm_triggered:
@@ -210,7 +213,7 @@ label scene3_observation:
     play music audio.buzz fadein 1.0
     scene bg morgue 1 
     with fade
-    "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled. Observation chairs face a one-way window looking into an empty room."
+    "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled."
     "A whiteboard. Cabinet drawers left slightly open. The room smells like stale coffee and dry-erase markers."
     label lab_examine:
     menu:
@@ -262,7 +265,6 @@ label scene4_archive:
     "This isn't where they keep the subjects. This is where they keep the records."
     label archive_examine:
     menu:
-        "The terminal hums. Files are scattered across the desk."
 
         "Play recording #1" if not found_voss_rec1:
             $ found_voss_rec1 = True
