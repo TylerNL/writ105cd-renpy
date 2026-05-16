@@ -29,7 +29,7 @@ default caught_in = ""
 image bg cell     = im.Scale("/images/bg Jail cell.jpg", 1920, 1080)
 image bg hallway = im.Scale("/images/bg hallway.png", 1920, 1080)
 image bg holding_cell = im.Scale("/images/bg holding cell.jpg", 1920, 1080)
-image bg ending = im.Scale("/images/bg morgue 1.jpg", 1920, 1080)
+image bg ending = im.Scale("/images/bg ending.jpg", 1920, 1080)
 image bg lab = im.Scale("images/bg lab.png", 1920, 1080)
 image bg junction = im.Scale("images/bg junction.png", 1920, 1080)
 image bg morgue 1 = im.Scale("images/bg morgue 1.jpg", 1920, 1080)
@@ -39,6 +39,10 @@ define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-li
 define audio.hum     = "audio/dragon-studio-creepy-industrial-hum-482882.mp3"
 define audio.intercom = "audio/freesound_community-intercom-93581.mp3"
 image eli = "/images/eli-bg.png"
+transform right_up:
+    xalign 1.0
+    yalign 1.0
+    yoffset -200
 
 
 # SCENE 1 — HOLDING ROOM
@@ -82,9 +86,9 @@ label scene1b_interview:
     "The intercom panel buzzes beside the mirror."
     "The one-way glass brightens slightly from within. A silhouette resolves: a woman, seated, clipboard in her lap."
 
-    show voss_neutral at right
+    show voss_neutral at right_up
     with dissolve
-    show voss_talk at right
+    show voss_talk at right_up
     v "Good morning, zero-seven. I'm Dr. Voss. I'll be conducting your routine cognitive assessment."
     v "This should take about fifteen minutes. Please answer as directly as you can."
     # Q1
@@ -336,7 +340,7 @@ label scene5_convergence:
         "Her voice is strained. Urgent."
         v "Move quickly. I don't know how long I can keep this corridor clear."
     "A sound behind you. Footsteps — fast, uneven."
-    show eli at right
+    show eli at right_up
     e "Wait — {i}wait{/i}!"
     "Eli rounds the corner. Breathing hard. His containment band is cracked, hanging loose."
     if trust_eli >= 1:
@@ -430,7 +434,7 @@ label ending_caught_snooping:
 # ENDINGS
 label ending_shared_escape:
     scene bg ending
-    show eli at right
+    show eli at right_up
     e "You mean it?"
     "You take his arm. He doesn't resist. He doesn't question it."
     "Neither of you notice that he should have."
@@ -470,7 +474,7 @@ label ending_stay:
     "Silence."
     v "...Yes."
     "\"Then none of this is real. Not Eli. Not you. None of it.\""
-    show eli at right
+    show eli at right_up
     e "What are you talking about?"
     "Eli's voice is hurt. Confused."
     "You sit down on the floor of the corridor."
@@ -489,7 +493,7 @@ label ending_captured:
     "The blast doors slam shut before you reach them."
     v "No, I almost had it—"
     "Her voice breaks."
-    show eli at right
+    show eli at right_up
     e "We're trapped."
     "Eli backs against the wall. His breathing goes ragged."
     "Getting closer."
