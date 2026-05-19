@@ -202,6 +202,56 @@ label scene2_hallway:
         "Keep walking":
             pass
     v "Continue along the guide line. You'll be directed to the observation wing shortly."
+
+    "The guide line leads past a row of reinforced windows."
+
+    "You slow without meaning to."
+
+    "A figure is already at the glass. He was waiting."
+
+    "There's a strip of tape on the window frame, handwritten in marker: {b}ELI{/b}"
+
+    "Not a subject number. A name."
+
+    "He presses a folded piece of paper against the window. Blocky letters: {b}HOW LONG{/b}"
+
+    menu:
+        "Hold up three fingers.":
+            $ trust_eli += 1
+            "He looks at your hand. Then holds up three of his own."
+            "Same."
+        "Shrug — you're not sure.":
+            "He nods slowly. Like that's an answer too."
+        "(Say nothing)":
+            "He waits a moment. Then nods."
+
+    "He uncaps a pen and writes again. Presses it to the glass."
+    "{b}DO YOU TRUST HER{/b}"
+    "An arrow pointing up. Toward the speaker on the wall."
+
+    menu:
+        "Nod.":
+            $ trust_eli += 1
+            "He tilts his hand back and forth. {i}Maybe.{/i}"
+        "Shake your head.":
+            "He writes {b}NOT YET{/b} and holds it up."
+            "You're not sure if that's agreement or a warning."
+        "Shrug.":
+            $ trust_eli += 1
+            "He tilts his hand back and forth. {i}Maybe.{/i}"
+
+    "At the end of the corridor, a staff member stops walking."
+    "They find something on their clipboard. Study it very carefully."
+    "They don't look up."
+
+    "Eli writes one more thing and presses it to the glass."
+    "{b}I'LL FIND YOU{/b}"
+
+    "You're not sure if that's a promise or a plan."
+
+    "The staff member starts moving again."
+    "You keep walking."
+
     menu:
         "The corridor branches ahead."
         "Head to the observation wing":
