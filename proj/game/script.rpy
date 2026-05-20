@@ -137,6 +137,23 @@ label scene1b_interview:
         "Yes. Calmer.":
             "She writes the word. Then reads it back to herself, silently."
             v "Calmer. Interesting."
+    # Question 4
+    v "Is there anyone outside this facility you'd want us to contact?"
+    menu:
+        "No.":
+            "She writes it down without looking up."
+            v "Noted."
+        "I don't know anymore.":
+            $ trust_voss += 1
+            "She looks up from the clipboard."
+            "That's not the answer she was expecting."
+            "She starts to say something. Then writes instead."
+            v "...I'll note that."
+        "Would it change anything?":
+            $ trust_voss += 1
+            "The pen stops."
+            "A long silence. She doesn't answer the question."
+            "She writes something down that takes longer than it should."
     # Closing
     v "That concludes today's session. Thank you for your cooperation."
     "She gathers her materials."
@@ -247,7 +264,7 @@ label scene2_hallway:
     "Eli writes one more thing and presses it to the glass."
     "{b}I'LL FIND YOU{/b}"
 
-    "You're not sure if that's a promise or a plan."
+    "You're not sure if that's a threat or a plan."
 
     "The staff member starts moving again."
     "You keep walking."
@@ -259,7 +276,7 @@ label scene2_hallway:
         "Turn toward the archive corridor" if found_sticky_note:
             jump scene4_archive
         "Follow the guide line":
-            jump scene5_convergence
+            jump scene_eli_split
     stop music fadeout 2.0
 
 #Scene 3
@@ -308,7 +325,7 @@ label scene3_observation:
         "Head toward the archive" if not knows_incident:
             jump scene4_archive
         "Continue to the exit wing":
-            jump scene5_convergence
+            jump scene_eli_split
     stop music fadeout 2.0
 
 # SCENE 4 — ARCHIVE
@@ -374,6 +391,62 @@ label scene4_archive:
         $ knows_ability = True
         "Pieces click together. Not everything — but enough."
     jump scene5_convergence
+
+# SCENE 4B
+label scene_eli_split:
+    scene bg hallway
+    with fade
+
+    "The corridor shifts."
+
+    "Someone coming from the other direction."
+
+    "It's Eli. Moving fast. A researcher two steps behind him, tablet out."
+
+    "He sees you."
+    show eli at right_up
+    menu:
+        "Slow down.":
+            $ trust_eli += 1
+            "Eli slows down. So does the research."
+            "The researcher behind him glances up from their tablet."
+            "Then back down."
+            "Three seconds. Maybe more."
+            e "They're moving us today. Separately."
+            menu:
+                "\"Where are they taking you?\"":
+                    e "Different wing. I don't know whi—"
+                    "A second staff member appears at the far end of the corridor."
+                    "The researcher behind Eli blinks. Seems to remember something."
+                "\"I know.\"":
+                    "He looks at you."
+                    e "Then you know more than I do."
+                    "A second staff member appears at the far end of the corridor."
+        "Keep walking.":
+            "Eye contact. That's all."
+            "He nods once. You nod back."
+            "The researcher behind him doesn't slow down."
+            "A second staff member appears at the far end of the corridor."
+
+    "The second staff member reaches Eli. A hand on his shoulder."
+    "Firm. Practiced."
+
+    e "Exi-"
+
+    "He's turned around before he can finish the word."
+
+    if knows_incident:
+        "You know what he's talking about."
+        "The junction between wings. The exit gate."
+    else:
+        "You don't know what he was trying to say."
+        "But you remember the strip of tape on the window frame. His handwriting."
+        "{b}I'LL FIND YOU{/b}"
+
+    "You keep walking."
+
+    jump scene5_convergence
+
 
 # SCENE 5 — CONVERGENCE / EXIT GATE
 label scene5_convergence:
