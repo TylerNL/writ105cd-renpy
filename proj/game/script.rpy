@@ -445,6 +445,39 @@ label scene_eli_split:
 
     "You keep walking."
 
+    jump scene_checkpoint
+
+
+label scene_checkpoint:
+    scene bg hallway
+    with fade
+
+    "You reach the end of the hallway where two guards are positioned."
+    "A wristband scanner mounted to the wall."
+
+    "The first guard looks up when you approach."
+    "He reaches for your wrist. Scans the band."
+    "He looks at his screen."
+
+    menu:
+        "Wait.":
+            "He's still looking at the screen."
+            "Not reading it. Just looking at it."
+            "Eleven seconds. You count."
+        "Say your number. \"Zero-seven.\"":
+            "He looks up."
+            "\"Right.\" He says it like he already knew."
+            "He doesn't look back at the readout."
+
+    "The second guard is supposed to sign you out."
+    "His pen is uncapped. He's looking at the middle distance."
+
+    "The door clicks open."
+
+    "You walk through."
+
+    "Behind you, neither guard moves."
+
     jump scene5_convergence
 
 
