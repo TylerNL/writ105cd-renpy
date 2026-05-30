@@ -487,13 +487,32 @@ label scene_checkpoint:
     "The second guard is supposed to sign you out."
     "His pen is uncapped. He's looking at the middle distance."
 
-    "The door clicks open."
+    "A radio is clipped to the first guard's shoulder. It crackles"
+    "He doesn't reach for it."
+    "The request repeats. Louder. A name you don't catch, then a number you do. {b}Zero-seven.{/b}"
+    "His thumb drifts toward the transmit button. Hovers there."
+    if knows_ability:
+        "You understand what's happening to him. You're standing too close. They both are."
+    else:
+        "You don't know why he doesn't answer it. Only that he doesn't."
 
-    "You walk through."
+    "Neither of them is going to stop you. You could wait for the door to release on its own."
+    "Or you could take what you need and be gone before they surface."
 
-    "Behind you, neither guard moves."
-
-    jump scene_voss_window
+    menu:
+        "Wait for the door.":
+            "The lock disengages with a soft mechanical sigh. The door clicks open."
+            "You walk through."
+            "Behind you, neither guard moves."
+            jump scene_voss_window
+        "Take the keycard from his belt and go.":
+            "You lift it off the clip. He lets you. His eyes follow your hand like it belongs to someone else."
+            $ alarm_triggered = True
+            play sound audio.intercom
+            "A tone. Then another. The light above the door snaps from green to red."
+            "Both guards blink, like sleepers waking."
+            "You run."
+            jump scene5_convergence
 
 
 # SCENE 4C — THE WINDOW
@@ -558,6 +577,8 @@ label scene_voss_window:
 
 # SCENE 5 — CONVERGENCE / EXIT GATE
 label scene5_convergence:
+    if alarm_triggered:
+        jump ending_captured
     scene bg junction
     with fade
     "Blast doors ahead. A keycard reader blinks red."
@@ -579,16 +600,26 @@ label scene5_convergence:
     else:
         "He looks desperate. Afraid."
     e "They're locking everything down. If we don't go now, we don't go."
+    if trust_eli >= 1:
+        e "I'm not asking you to save me. I'm asking you not to leave."
+        "He says it simply. Like it's the easiest thing in the world to want."
+    else:
+        e "I don't even know your real name. I don't care. We just have to move."
+    "His hand is already half-extended toward you."
     v "Zero-seven. Listen to me carefully."
     if knows_incident:
         v "I know you've read the files. I know what you're thinking."
         v "But right now, the door is open. {i}Please.{/i}"
     else:
         v "The door is open. Don't hesitate."
-    if alarm_triggered:
-        jump ending_captured
+    "The keycard reader flicks from red to green. The blast doors release a long breath and begin to part."
+    "Cold air threads through the gap — real air, from outside. The first you've felt in longer than you can remember."
+    if knows_ability:
+        "You think about what you are. What standing near these two has already done to them."
+        "Whatever you choose now, you won't be able to tell if they chose it back."
+    "Two people want different things from you. The door wants only one."
     menu:
-        "The blast doors hum. Eli stands beside you. Voss's voice hangs in the air."
+        "Eli's hand hangs half-raised. Voss's voice still in the air. The cold pulling at you from beyond the doors."
         "\"Let's go — both of us.\"":
             $ helped_eli = True
             jump ending_shared_escape
@@ -679,6 +710,15 @@ label ending_shared_escape:
         "Or whether he ever had a choice at all."
     else:
         "The night is cold and clear. For the first time in as long as you can remember, no one is watching."
+    "You walk until the facility is a low grey shape behind the treeline. Eli keeps pace beside you."
+    "He's smiling. He hasn't stopped since the doors opened."
+    if knows_ability:
+        "You keep half a step of distance. He keeps closing it."
+        "You'll have to tell him eventually. What you are."
+        "Not tonight. Tonight you let him walk beside you and try not to count the inches."
+    else:
+        e "Where do we go?"
+        "You don't have an answer. It doesn't seem to bother either of you."
     "END — Shared Escape"
     return
 label ending_alone:
@@ -694,6 +734,16 @@ label ending_alone:
         "You tell yourself it's the right thing. That staying would only make it worse."
     else:
         "You don't look back."
+    "Outside, the air is colder than you expected. The facility's lights throw long rectangles across the gravel behind you."
+    "You walk until you can't hear the alarm. Then further."
+    if knows_ability:
+        "It's the cleanest thing you've done since you understood what you are."
+        "Out here there's no one close enough to bend toward you. No one to lie to without meaning to."
+        "You think it's supposed to feel like freedom."
+    else:
+        "You don't know where you're going. Only that it's away."
+        "Somewhere behind a steel door, a man who reached for you is learning you're not coming back."
+        "You keep your eyes on the dark ahead and let him learn it."
     "END — Alone"
     return
 label ending_stay:
@@ -715,6 +765,13 @@ label ending_stay:
     "The blast doors grind shut. The cold air disappears."
     "Eli stares at you. Then, slowly, sits down beside you."
     "You don't tell him to leave. You're not sure it would work."
+    v "...I'll log it as a containment success."
+    "Her voice is careful. The professional distance back in place."
+    v "It's the only way I can keep them from sending someone for you."
+    "A pause."
+    v "Thank you. For not making me watch you leave and wonder if I meant it."
+    "The intercom clicks off."
+    "Beside you, Eli's shoulder is warm against yours."
     "You choose to stay where you can't hurt anyone else."
     "END — Stay"
     return
@@ -731,5 +788,13 @@ label ending_captured:
     "You stand in the center of the corridor, under the emergency lights, and wait."
     "They don't use force. They don't need to."
     "Everyone who gets close to you becomes gentle."
+    "Hands settle on your arms. Soft. Almost apologetic — the same hands that an hour ago were locking the doors."
+    "They walk you back the way you came. Behind you, Eli is calling your number. Then your number again. Until a door closes between you and the sound stops."
+    if trust_voss >= 3:
+        "The intercom trails you down the corridor. Voss, quiet, not quite to herself."
+        v "I'll try again. I'm not going to stop trying."
+        "You don't know if she means it. You're not sure she can tell the difference anymore either."
+    else:
+        "No one says anything. There's nothing to say to a problem that solves itself just by standing near you."
     "END — Captured"
     return
