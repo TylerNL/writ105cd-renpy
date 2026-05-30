@@ -1,3 +1,4 @@
-## Writ105CD RenPy Project
-TO DO:
-Add BG pictures for hallway, lab, small room (archive), exit
+## Writ105CD RenPy Project - Subject 07
+
+**AI Transparency note found in proj/game -> ai-transparency.md**
+
