@@ -51,7 +51,7 @@ label start:
     scene bg cell
     with fade
     play music audio.buzz fadein 2.0
-    "Sterile white. Fluorescent panels humming overhead. The smell is clinical — disinfectant layered over something older."
+    "Sterile white. Fluorescent panels humming overhead. The smell is clinical, disinfectant layered over something older."
     "A metal bed bolted to the wall. A one-way mirror on the far wall, its surface dark and flat."
     "A digital readout above the door pulses softly: {b}CONTAINMENT CELL 07{/b}."
     "Not 'room.' Not 'suite.' {i}Containment.{/i}"
@@ -66,14 +66,14 @@ label start:
         "Look at the mirror" if not found_display:
             $ found_display = True
             "You don't look at it directly. You never do."
-            "From the corner of your eye, the glass reflects the room — distorted, slightly wrong. Someone could be standing right behind it."
+            "From the corner of your eye, the glass reflects the room. Someone could be standing right behind it."
             "The thought doesn't bother you as much as it should."
             jump cell_examine
         "Wait by the door":
             pass
     play sound audio.intercom
     "A buzz. The magnetic lock disengages."
-    "A voice through the intercom — measured, professional."
+    "A voice through the intercom - measured, professional."
     v "Subject zero-seven, you're being moved to a temporary holding area. Please step into the corridor and follow the guide line."
     "The door slides open."
     jump scene1b_interview
@@ -211,7 +211,7 @@ label scene2_hallway:
             jump hallway_examine
         "Look through the reinforced glass" if not found_eli_window:
             $ found_eli_window = True
-            "Movement in the adjacent cell. A figure — young, close to your age — presses his hand flat against the window."
+            "Movement in the adjacent cell. A figure, young, close to your age, presses his hand flat against the window."
             "His cell looks identical to yours. Same bed. Same mirror. Same readout."
             "He mouths something. You can't hear it."
             "Staff in the background move faster near both doors."
@@ -238,7 +238,7 @@ label scene2_hallway:
             $ trust_eli += 1
             "He looks at your hand. Then holds up three of his own."
             "Same."
-        "Shrug — you're not sure.":
+        "Shrug":
             "He nods slowly. Like that's an answer too."
         "(Say nothing)":
             "He waits a moment. Then nods."
@@ -285,7 +285,7 @@ label scene3_observation:
     play music audio.buzz fadein 1.0
     scene bg morgue 1 
     with fade
-    "A converted lab. Monitoring equipment lines one wall — screens dark, cables coiled."
+    "A converted lab. Monitoring equipment lines one wall - screens dark, cables coiled."
     "A whiteboard. Cabinet drawers left slightly open. The room smells like stale coffee and dry-erase markers."
     label lab_examine:
     menu:
@@ -317,7 +317,7 @@ label scene3_observation:
             pass
     if found_whiteboard and found_readout and found_case_file and found_rotation_note:
         $ knows_ability = True
-        "Something settles in your chest. Not a revelation — a confirmation. Like a word you've been trying to remember finally surfacing."
+        "Something settles in your chest. Not a revelation, a confirmation."
         "You affect people. Just by being near them."
     elif found_readout or found_case_file:
         "Fragments. Not enough to see the full picture, but enough to feel its weight."
@@ -361,7 +361,7 @@ label scene4_archive:
         "Read the memo" if not found_memo:
             $ found_memo = True
             "A typed memo, stamped INTERNAL ONLY."
-            "{i}\"Cognitive Bleed — passive radius expanding. Estimated range: 40ft.\"{/i}"
+            "{i}\"Cognitive Bleed: passive radius expanding. Estimated range: 40ft.\"{/i}"
             "Forty feet. That's not a room. That's a corridor. A wing."
             jump archive_examine
 
@@ -373,7 +373,7 @@ label scene4_archive:
                     $ alarm_triggered = True
                     "The lock is cheap. It breaks under little pressure."
                     "Inside: a single file folder. A photograph clipped to the front."
-                    "Your face. From before. A name written underneath it — your real name."
+                    "Your face. From before. A name written underneath it - your real name."
                     "You hadn't heard it in so long you'd almost stopped expecting to."
                     "A tone sounds through the building. Then again."
                     jump caught_snooping_archive
@@ -390,7 +390,7 @@ label scene4_archive:
         "The warmth that makes people trust you isn't kindness. It's a field. And it's getting stronger."
     elif found_voss_rec2 and found_memo:
         $ knows_ability = True
-        "Pieces click together. Not everything — but enough."
+        "Pieces click together. Not everything - but enough."
 
     "You step out of the archive. The blue light of the terminal fades behind you."
     scene bg hallway
@@ -434,7 +434,7 @@ label scene_eli_split:
             e "They're moving us today. Separately."
             menu:
                 "\"Where are they taking you?\"":
-                    e "Different wing. I don't know whi—"
+                    e "Different wing. I don't know whi-"
                     "A second staff member appears at the far end of the corridor."
                     "The researcher behind Eli blinks. Seems to remember something."
                 "\"I know.\"":
@@ -629,7 +629,7 @@ label scene5_convergence:
             jump ending_shared_escape
         "\"I need to go alone. I'm sorry.\"":
             jump ending_alone
-        "\"Is what I read in the archive true? Am I actually—\"" if knows_incident:
+        "\"Is what I read in the archive true? Am I actually-\"" if knows_incident:
             jump ending_stay
 
 #Getting caught scenes:
@@ -788,7 +788,7 @@ label ending_captured:
     scene bg ending
     "The alarm screams through the corridor. Red light washes everything in pulses."
     "The blast doors slam shut before you reach them."
-    v "No, I almost had it—"
+    v "No, I almost had it-"
     "Her voice breaks."
     show eli at right_up
     e "We're trapped."
