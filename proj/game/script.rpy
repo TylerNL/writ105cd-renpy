@@ -769,6 +769,9 @@ label ending_stay:
     v "You don't have to do this."
     "\"Close them.\""
     "The blast doors grind shut. The cold air disappears."
+    scene bg junction
+    with fade
+    show eli at right_up
     "Eli stares at you. Then, slowly, sits down beside you."
     "You don't tell him to leave. You're not sure it would work."
     v "...I'll log it as a containment success."
