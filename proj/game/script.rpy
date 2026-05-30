@@ -33,6 +33,7 @@ image bg ending = im.Scale("/images/bg ending.jpg", 1920, 1080)
 image bg lab = im.Scale("images/bg lab.png", 1920, 1080)
 image bg junction = im.Scale("images/bg junction.png", 1920, 1080)
 image bg morgue 1 = im.Scale("images/bg morgue 1.jpg", 1920, 1080)
+image bg bando = im.Scale("images/bg bando 1.jpg", 1920, 1080)
 image voss_neutral = "/images/voss_neutral.png"
 image voss_talk = "/images/voss_talk.png"   
 define audio.buzz    = "audio/freesound_community-room-with-buzz-incandescent-light-bulb-23892.mp3"
@@ -392,7 +393,10 @@ label scene4_archive:
         "Pieces click together. Not everything — but enough."
 
     "You step out of the archive. The blue light of the terminal fades behind you."
+    scene bg hallway
+    with fade
     "The corridor is empty in both directions."
+    
 
     if knows_incident:
         "Your real name keeps surfacing. The one under the photograph."
@@ -523,7 +527,7 @@ label scene_voss_window:
     "Past the checkpoint, the corridor keeps going. Longer than it should."
     "The overhead lights are spaced further apart here. Pools of dark between them."
 
-    "On your left, a window set into the wall. Reinforced glass. An office on the other side."
+    "On your right, a window set into the wall. Reinforced glass. An office on the other side."
 
     "Someone's in there."
     "A woman, bent over a console, the blue glow of it on her cheek. She hasn't looked up yet."
@@ -531,7 +535,7 @@ label scene_voss_window:
     "Voss."
 
     "You drop below the sill before she can turn."
-    "Back against the wall. Breath held. Counting."
+    "Back against the wall."
 
     play sound audio.intercom
     "A speaker clicks on above the door."
@@ -591,9 +595,9 @@ label scene5_convergence:
     else:
         "Her voice is strained. Urgent."
         v "Move quickly. I don't know how long I can keep this corridor clear."
-    "A sound behind you. Footsteps — fast, uneven."
+    "A sound behind you. Footsteps"
     show eli at right_up
-    e "Wait — {i}wait{/i}!"
+    e "Wait! {i}wait{/i}!"
     "Eli rounds the corner. Breathing hard. His containment band is cracked, hanging loose."
     if trust_eli >= 1:
         "He looks at you like you're the only real thing in the building."
@@ -613,14 +617,14 @@ label scene5_convergence:
     else:
         v "The door is open. Don't hesitate."
     "The keycard reader flicks from red to green. The blast doors release a long breath and begin to part."
-    "Cold air threads through the gap — real air, from outside. The first you've felt in longer than you can remember."
+    "Cold air threads through the gap - real air, from outside. The first you've felt in longer than you can remember."
     if knows_ability:
         "You think about what you are. What standing near these two has already done to them."
         "Whatever you choose now, you won't be able to tell if they chose it back."
     "Two people want different things from you. The door wants only one."
     menu:
         "Eli's hand hangs half-raised. Voss's voice still in the air. The cold pulling at you from beyond the doors."
-        "\"Let's go — both of us.\"":
+        "\"Let's go.\"":
             $ helped_eli = True
             jump ending_shared_escape
         "\"I need to go alone. I'm sorry.\"":
@@ -719,7 +723,7 @@ label ending_shared_escape:
     else:
         e "Where do we go?"
         "You don't have an answer. It doesn't seem to bother either of you."
-    "END — Shared Escape"
+    "END - Shared Escape"
     return
 label ending_alone:
     scene bg ending
@@ -734,6 +738,8 @@ label ending_alone:
         "You tell yourself it's the right thing. That staying would only make it worse."
     else:
         "You don't look back."
+    scene bg bando
+    with fade
     "Outside, the air is colder than you expected. The facility's lights throw long rectangles across the gravel behind you."
     "You walk until you can't hear the alarm. Then further."
     if knows_ability:
@@ -744,7 +750,7 @@ label ending_alone:
         "You don't know where you're going. Only that it's away."
         "Somewhere behind a steel door, a man who reached for you is learning you're not coming back."
         "You keep your eyes on the dark ahead and let him learn it."
-    "END — Alone"
+    "END - Alone"
     return
 label ending_stay:
     scene bg ending
@@ -773,7 +779,7 @@ label ending_stay:
     "The intercom clicks off."
     "Beside you, Eli's shoulder is warm against yours."
     "You choose to stay where you can't hurt anyone else."
-    "END — Stay"
+    "END - Stay"
     return
 label ending_captured:
     scene bg ending
@@ -796,5 +802,5 @@ label ending_captured:
         "You don't know if she means it. You're not sure she can tell the difference anymore either."
     else:
         "No one says anything. There's nothing to say to a problem that solves itself just by standing near you."
-    "END — Captured"
+    "END - Captured"
     return
