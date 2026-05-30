@@ -390,7 +390,22 @@ label scene4_archive:
     elif found_voss_rec2 and found_memo:
         $ knows_ability = True
         "Pieces click together. Not everything — but enough."
-    jump scene5_convergence
+
+    "You step out of the archive. The blue light of the terminal fades behind you."
+    "The corridor is empty in both directions."
+
+    if knows_incident:
+        "Your real name keeps surfacing. The one under the photograph."
+        "You'd almost stopped expecting to hear it. Now you can't put it back down."
+    elif knows_ability:
+        "You keep a careful distance from the walls, the cameras, as if proximity were the problem."
+
+    "You follow the corridor toward the perimeter. The signage thins out. Fewer cameras."
+    "Somewhere behind a wall, a ventilation fan winds down and doesn't start again."
+
+    "Up ahead the corridor funnels to a single controlled point. The only way out runs through it."
+
+    jump scene_checkpoint
 
 # SCENE 4B
 label scene_eli_split:
@@ -477,6 +492,66 @@ label scene_checkpoint:
     "You walk through."
 
     "Behind you, neither guard moves."
+
+    jump scene_voss_window
+
+
+# SCENE 4C — THE WINDOW
+label scene_voss_window:
+    scene bg hallway
+    with fade
+
+    "Past the checkpoint, the corridor keeps going. Longer than it should."
+    "The overhead lights are spaced further apart here. Pools of dark between them."
+
+    "On your left, a window set into the wall. Reinforced glass. An office on the other side."
+
+    "Someone's in there."
+    "A woman, bent over a console, the blue glow of it on her cheek. She hasn't looked up yet."
+    "But you know the voice that goes with that face. The one from the recordings. The one that's been getting warmer for weeks."
+    "Voss."
+
+    "You drop below the sill before she can turn."
+    "Back against the wall. Breath held. Counting."
+
+    play sound audio.intercom
+    "A speaker clicks on above the door."
+    v "I saw you."
+    "Not loud. Not an alarm. Just a fact, set down between you."
+    v "Stand up. Let me look at you."
+
+    menu:
+        "Stay down.":
+            "You don't move. Your heartbeat does."
+            v "I'm not going to call anyone. I just want to see you."
+            "A long pause."
+            v "Please."
+        "Stand.":
+            pass
+
+    "You rise into the frame."
+    show voss_talk at right_up
+    "For the first time it's just glass between you and Voss. Nothing else."
+
+    "Her hand comes up to the surface. Fingers spread flat against it."
+    if knows_ability or knows_incident:
+        "And you feel it leave you. The warmth. The field. Reaching across the gap whether you want it to or not."
+        "You're doing this to her. Right now. And you don't know how to stop."
+    else:
+        "Something crosses the space between you. You don't have a word for it."
+        "The tension drains out of her face like water finding a drain."
+
+    if trust_voss >= 3:
+        v "I knew it would be you. I think I've known for weeks."
+        v "Go. The perimeter lock is the last door. I'll have it open before you reach it."
+    else:
+        v "I'm supposed to stop you. That's the job."
+        "Her hand stays on the glass."
+        v "Go. Before I remember how."
+
+    "The office light clicks off."
+
+    "You keep walking, toward the last door."
 
     jump scene5_convergence
 
@@ -611,7 +686,7 @@ label ending_alone:
     e "What? No-"
     "His hand reaches for you. You step back."
     "The look on his face isn't anger. It's something worse."
-    "The blast doors open. You walk through alone."
+    "The blast doors open. You walk through alone and push Eli to stay."
     v "..."
     "Voss doesn't say anything. The intercom stays open. You can hear her breathing."
     "Behind you, the doors close. Eli's hand drops."
